@@ -1,5 +1,9 @@
 # g36-ahu-faults
 
+[![Build Status](https://app.travis-ci.com/bbartling/g36-ahu-faults.svg?branch=develop)](https://app.travis-ci.com/bbartling/g36-ahu-faults)
+
+
+
 ## This project is under development to eventually be a Pypi package to use with the `open-fdd` project for ASHRAE G36 FDD:
 https://github.com/bbartling/open-fdd
 

@@ -495,16 +495,16 @@ class FaultConditionSeven:
             self.heating_sig_col
         ]:
             if not pdtypes.is_float_dtype(df[col]):
-                raise TypeError(float_int_check_err(col))
+                raise TypeError(HelperUtils().float_int_check_err(col))
 
             if df[col].max() > 1.0:
-                raise TypeError(float_max_check_err(col))
+                raise TypeError(HelperUtils().float_max_check_err(col))
 
         df["fc7_flag"] = (
-            ((df[self.sat_col]).lt(df[self.satsp_col] - self.sat_degf_err_thres))
+            (df[self.sat_col] < df[self.satsp_col] - self.sat_degf_err_thres)
 
             # verify ahu is running in OS 1 at near full heat
-            & (df[self.heating_sig_col] > 90.)
+            & (df[self.heating_sig_col] > .9)
             & (df[self.supply_vfd_speed_col] > 0)
         ).astype(int)
 
@@ -547,11 +547,18 @@ class FaultConditionEight:
             self.cooling_sig_col,
             self.ahu_min_oa_dpr
         ]:
-            if not pdtypes.is_float_dtype(df[col]):
-                raise TypeError(float_int_check_err(col))
+            if col == self.ahu_min_oa_dpr:
+                if not HelperUtils().isfloat(col):
+                    raise TypeError(HelperUtils().float_int_check_err(col))
+                    
+                if not HelperUtils().isLessThanOnePointOne(col):
+                    raise TypeError(HelperUtils().float_max_check_err(col))
+            else:
+                if not pdtypes.is_float_dtype(df[col]):
+                    raise TypeError(HelperUtils().float_int_check_err(col))
 
-            if df[col].max() > 1.0:
-                raise TypeError(float_max_check_err(col))
+                if df[col].max() > 1.0:
+                    raise TypeError(HelperUtils().float_max_check_err(col))
 
         df['sat_fan_mat'] = abs(
             df[self.sat_col] - self.delta_supply_fan - df[self.mat_col])
@@ -563,8 +570,8 @@ class FaultConditionEight:
             (df['sat_fan_mat'] > df['sat_mat_sqrted'])
 
             # verify AHU is in OS2 only free cooling mode obly
-            & (df[self.economizer_sig_col] < self.ahu_min_oa)
-            & (df[self.cooling_sig_col] == 0)
+            & (df[self.economizer_sig_col] > self.ahu_min_oa_dpr)
+            & (df[self.cooling_sig_col] < .1)
         ).astype(int)
 
         if self.troubleshoot:
@@ -611,11 +618,18 @@ class FaultConditionNine:
             self.cooling_sig_col,
             self.ahu_min_oa_dpr
         ]:
-            if not pdtypes.is_float_dtype(df[col]):
-                raise TypeError(float_int_check_err(col))
+            if col == self.ahu_min_oa_dpr:
+                if not HelperUtils().isfloat(col):
+                    raise TypeError(HelperUtils().float_int_check_err(col))
+                    
+                if not HelperUtils().isLessThanOnePointOne(col):
+                    raise TypeError(HelperUtils().float_max_check_err(col))
+            else:
+                if not pdtypes.is_float_dtype(df[col]):
+                    raise TypeError(HelperUtils().float_int_check_err(col))
 
-            if df[col].max() > 1.0:
-                raise TypeError(float_max_check_err(col))
+                if df[col].max() > 1.0:
+                    raise TypeError(HelperUtils().float_max_check_err(col))
 
         df['oat_minus_oaterror'] = df[self.oat_col] - self.oat_err_thres
         df['satsp_delta_saterr'] = df[self.satsp_col] - \
@@ -625,8 +639,8 @@ class FaultConditionNine:
             (df['oat_minus_oaterror'] > df['satsp_delta_saterr'])
 
             # verify AHU is in OS2 only free cooling mode obly
-            & (df[self.economizer_sig_col] < self.ahu_min_oa)
-            & (df[self.cooling_sig_col] == 0)
+            & (df[self.economizer_sig_col] > self.ahu_min_oa_dpr)
+            & (df[self.cooling_sig_col] < .1)
         ).astype(int)
 
         if self.troubleshoot:
@@ -670,10 +684,10 @@ class FaultConditionTen:
             self.cooling_sig_col,
         ]:
             if not pdtypes.is_float_dtype(df[col]):
-                raise TypeError(float_int_check_err(col))
+                raise TypeError(HelperUtils().float_int_check_err(col))
 
             if df[col].max() > 1.0:
-                raise TypeError(float_max_check_err(col))
+                raise TypeError(HelperUtils().float_max_check_err(col))
 
         df['abs_mat_minus_oat'] = abs(df[self.mat_col] - df[self.oat_col])
         df['mat_oat_sqrted'] = np.sqrt(
@@ -683,8 +697,8 @@ class FaultConditionTen:
             (df['abs_mat_minus_oat'] > df['mat_oat_sqrted'])
 
             # verify ahu is running in OS 3 clg mode in min OA
-            & (df[self.cooling_sig_col] > 0)
-            & (df[self.economizer_sig_col] > 90.)
+            & (df[self.cooling_sig_col] > .01)
+            & (df[self.economizer_sig_col] > .9)
         ).astype(int)
 
         if self.troubleshoot:

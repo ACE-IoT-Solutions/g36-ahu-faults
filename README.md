@@ -3,7 +3,6 @@
 [![Build Status](https://app.travis-ci.com/bbartling/g36-ahu-faults.svg?branch=develop)](https://app.travis-ci.com/bbartling/g36-ahu-faults)
 
 ## This project is under development to eventually be a Pypi package for Fault Detection Diagnostics (FDD) on HVAC system datasets with the Pandas computing library. 
-This repo is for HVAC air handling units only fault equations.
 See also (in development) for other HVAC system types:
 * [g36-boiler-plant-faults](https://github.com/bbartling/g36-boiler-plant-faults)
 * [g36-chiller-plant-faults](https://github.com/bbartling/g36-chiller-plant-faults)
@@ -17,14 +16,16 @@ https://github.com/bbartling/open-fdd/tree/master/air_handling_unit/images
 
 
 ## License
-g36-ahu-faults is made available under the MIT license.
+g36-ahu-faults is made available under the MIT license. Enjoy! 
 
 ## Development
-
 You can follow the development of g36-ahu-faults on [GitHub](https://github.com/bbartling/open-fdd) via the `open-fdd` project for ASHRAE G36 Fault Detection Diagnostics.
 
 ## Contributing
+To contribute to g36-ahu-faults please open an issue on the [GitHub issue tracker](https://github.com/bbartling/g36-ahu-faults/issues) and/or leave a Pull Request. Thanks!
 
-To contribute to g36-ahu-faultsplease open an issue on our [GitHub issue tracker](https://github.com/bbartling/g36-ahu-faults/issues) and/or leave a Pull Request. Thanks!
+## FDD Dataset Contributing
+Any good anonymous HVAC FDD datasets in CSV format where lots of faults are found please contribute in a community effort:
+https://github.com/bbartling/Data
 
 
